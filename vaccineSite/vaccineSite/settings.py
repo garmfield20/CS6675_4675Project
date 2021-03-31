@@ -32,6 +32,8 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'distributors.apps.DistributorsConfig',
+    'physicians.apps.PhysiciansConfig',
+    'vaccines.apps.VaccinesConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
