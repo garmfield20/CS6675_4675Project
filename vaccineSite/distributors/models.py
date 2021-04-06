@@ -20,4 +20,7 @@ class distributors(models.Model):
     state = models.CharField(default="Georgia", max_length=256)
     country = models.CharField(default="US", max_length=256)
 
+    def __str__(self):
+        return self.distributor_id
+
 
