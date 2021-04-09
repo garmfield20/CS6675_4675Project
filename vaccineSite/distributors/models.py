@@ -8,7 +8,7 @@ from django.db import models
 # run python manage.py makemigrations
 # run python manage.py migrate
 
-class distributors(models.Model):
+class distributor(models.Model):
     # name, password? address, last_update, registration_data, updates_count
     distributor_id = models.CharField(max_length=256, primary_key = True)
     name = models.CharField(max_length=256)
