@@ -33,11 +33,11 @@ class Account(AbstractUser):
     is_physician = models.BooleanField(default=False)
     is_distributor = models.BooleanField(default=False)
 
-    address_line = models.CharField(default="842 Peachtree St NE",max_length=256)
-    zip_code = models.CharField(default="30308", max_length=12)
-    city = models.CharField(default="Atlanta", max_length=256)
-    state = models.CharField(default="Georgia", max_length=256)
-    country = models.CharField(default="US", max_length=256)
+    address_line = models.CharField(max_length=256)
+    zip_code = models.CharField(max_length=12)
+    city = models.CharField(max_length=256)
+    state = models.CharField(max_length=256)
+    country = models.CharField(max_length=256)
 
 
 class Patient(models.Model):
@@ -84,7 +84,7 @@ class Appointment(models.Model):
     endTime = models.DateTimeField()
     currphysician = models.OneToOneField(Physician, on_delete=models.RESTRICT)
     patient = models.OneToOneField(Patient, on_delete=models.RESTRICT)
-    vaccineName = models.CharField(default="Pfizer", max_length=256)
+    vaccineName = models.CharField(max_length=256)
     dose = models.IntegerField(default=1)
 
     class Meta:

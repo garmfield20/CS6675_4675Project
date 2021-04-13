@@ -32,11 +32,11 @@ def user_login(request):
         if user is not None:
             login(request, user)
             if user.is_distributor:
-                return redirect('distributor_log_in')
+                return redirect('distributor_main')
             elif user.is_physician:
-                return redirect('physician_log_in')
+                return redirect('physician_main')
             elif user.is_patient:
-                return redirect('patient_log_in')
+                return redirect('patient_main')
             else:
                 messages.info(request, 'Not recognized account type')
         else:
@@ -53,20 +53,58 @@ def log_out(request):
 
 @login_required
 @distributor_required
-def distributor_log_in(request):
-    return render(request, 'user/distributor_login.html')
+def distributor_main(request):
+    return render(request, 'user/distributor.html')
+
+@login_required
+@distributor_required
+def distributor_profile(request):
+    return render(request, 'user/distributor_profile.html')
+
+@login_required
+@distributor_required
+def distributor_appointments(request):
+    return render(request, 'user/distributor_appointments.html')
+
+@login_required
+@distributor_required
+def distributor_appointments_add(request):
+    return render(request, 'user/distributor_appointments_add.html')
 
 
 @login_required
 @patient_required
-def patient_log_in(request):
-    return render(request, 'user/patient_login.html')
+def patient_main(request):
+    return render(request, 'user/patient.html')
+
+@login_required
+@patient_required
+def patient_profile(request):
+    return render(request, 'user/patient_profile.html')
+
+@login_required
+@patient_required
+def patient_appointments(request):
+    return render(request, 'user/patient_appointments.html')
+
+@login_required
+@patient_required
+def patient_appointments_book(request):
+    return render(request, 'user/patient_appointments_book.html')
 
 
 @login_required
 @physician_required
-def physician_log_in(request):
-    return render(request, 'user/physician_login.html')
+def physician_main(request):
+    return render(request, 'user/physician.html')
+    
+
+@login_required
+@physician_required
+def physician_profile(request):
+    return render(request, 'user/physician_profile.html')
+
+
 
 
 def distributor_sign_up(request):
