@@ -6,6 +6,7 @@ from django.db import transaction
 from django.db.models import Avg, Count
 from django.forms import inlineformset_factory
 from django.shortcuts import get_object_or_404, redirect, render
+from django.utils import timezone
 from django.urls import reverse, reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views.generic import (CreateView, DeleteView, DetailView, ListView, UpdateView)
@@ -13,7 +14,7 @@ from django.http import HttpResponse
 from django.template import loader
 
 from .forms import PhysicianSignUpForm, DistributorSignUpForm, PatientSignUpForm, CreateUserForm
-from .models import Account, Distributor
+from .models import Account, Distributor, Appointment
 from .decorators import patient_required, physician_required, distributor_required
 
 
@@ -61,10 +62,17 @@ def distributor_main(request):
 def distributor_profile(request):
     return render(request, 'user/distributor_profile.html')
 
-@login_required
-@distributor_required
-def distributor_appointments(request):
-    return render(request, 'user/distributor_appointments.html')
+
+@method_decorator([login_required, distributor_required], name='dispatch')
+class AppointmentView(ListView):
+    model = Appointment
+    template_name = 'user/distributor_appointments.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['now'] = timezone.now()
+        return context
+
 
 @login_required
 @distributor_required

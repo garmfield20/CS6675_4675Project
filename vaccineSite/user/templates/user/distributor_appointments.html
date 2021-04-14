@@ -8,9 +8,23 @@
     <h1>
         This is the distributor appointment page
     </h1>
-    <form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    </form>
+    <ul>
+    {% for appointment in object_list %}
+        <li>Current physician: {{ appointment.currphysician }}</li>
+        <li>Patient: {{ appointment.patient }}</li>
+        <li>Vaccine name: {{ appointment.vaccineName.vaccine_id }}</li>
+        <li>startTime: {{ appointment.startTime }}</li>
+        <li>endTime: {{ appointment.endTime }}</li>
+        <li>does: {{ appointment.dose }}</li>
+    {% empty %}
+        <li>No articles yet.</li>
+    {% endfor %}
+    </ul>
+<!--    <p>Start time: {{ object.StartTime }}</p>-->
+<!--    <p>End time: {{ object.EndTime }}</p>-->
+<!--    <form method="post">-->
+<!--    {% csrf_token %}-->
+<!--    {{ form.as_p }}-->
+<!--    </form>-->
 </body>
 </html>

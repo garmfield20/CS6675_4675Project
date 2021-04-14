@@ -79,21 +79,24 @@ class Physician(models.Model):
         return self.user.username
 
 
-class Appointment(models.Model):
-    startTime = models.DateTimeField()
-    endTime = models.DateTimeField()
-    currphysician = models.OneToOneField(Physician, on_delete=models.RESTRICT)
-    patient = models.OneToOneField(Patient, on_delete=models.RESTRICT)
-    vaccineName = models.CharField(max_length=256)
-    dose = models.IntegerField(default=1)
-
-    class Meta:
-        unique_together = (('currphysician', 'patient'),)
-
-
 class Vaccine(models.Model):
     vaccine_id = models.CharField(max_length=256)
     brand = models.CharField(max_length=256)
     dose_required = models.IntegerField(default=2)
     if_used = models.BooleanField(default=False)
     expiration_date = models.DateField()
+
+
+class Appointment(models.Model):
+    startTime = models.DateTimeField()
+    endTime = models.DateTimeField()
+    currphysician = models.OneToOneField(Physician, on_delete=models.RESTRICT)
+    patient = models.OneToOneField(Patient, on_delete=models.RESTRICT)
+    vaccineName = models.OneToOneField(Vaccine, on_delete=models.RESTRICT, max_length=256)
+    dose = models.IntegerField(default=1)
+
+    class Meta:
+        unique_together = (('currphysician', 'patient', 'vaccineName'),)
+
+
+

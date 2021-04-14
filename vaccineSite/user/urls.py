@@ -1,5 +1,6 @@
 from django.urls import path
 from . import views
+from .views import AppointmentView
 from django.contrib.auth import views as auth_views
 
 urlpatterns = [
@@ -11,7 +12,7 @@ urlpatterns = [
 
     path('distributor', views.distributor_main, name='distributor_main'),
     path('distributor/profile', views.distributor_profile, name = 'distributor_profile'),
-    path('distributor/appointments', views.distributor_appointments, name = 'distributor_appointments'),
+    path('distributor/appointments', AppointmentView.as_view(), name='distributor_appointments'),
     path('distributor/appointments/add', views.distributor_appointments_add, name = 'distributor_appointments_add'),
 
     path('physician', views.physician_main, name='physician_main'),
