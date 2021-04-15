@@ -11,6 +11,13 @@
     <form method="post">
     {% csrf_token %}
     {{ form.as_p }}
+    <button type="submit">Save Appointment</button>
     </form>
 </body>
 </html>
+
+<!-- start and end time fields should open up a calendar to select date and time
+
+physician, patient, vaccine name - drop down
+
+dose - digit -->

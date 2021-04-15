@@ -13,7 +13,7 @@ from django.views.generic import (CreateView, DeleteView, DetailView, ListView, 
 from django.http import HttpResponse
 from django.template import loader
 
-from .forms import PhysicianSignUpForm, DistributorSignUpForm, PatientSignUpForm, CreateUserForm
+from .forms import PhysicianSignUpForm, DistributorSignUpForm, PatientSignUpForm, VaccineForm, CreateUserForm, DistributorApptAddForm, PhysicianApptAddForm
 from .models import Account, Distributor, Appointment
 from .decorators import patient_required, physician_required, distributor_required
 
@@ -77,7 +77,29 @@ class AppointmentView(ListView):
 @login_required
 @distributor_required
 def distributor_appointments_add(request):
-    return render(request, 'user/distributor_appointments_add.html')
+    form = DistributorApptAddForm()
+    if request.method == 'POST':
+        form = DistributorApptAddForm(request.POST)
+        if form.is_valid():
+            form.save()
+
+            return redirect('distributor_appointments')
+
+    context = {'form': form}
+    return render(request, 'user/distributor_appointments_add.html', context)
+
+@login_required
+@distributor_required
+def vaccine(request):
+    form = VaccineForm()
+    if request.method == 'POST':
+        form = VaccineForm(request.POST)
+        if form.is_valid():
+            form.save()
+
+            return redirect('distributor_main')
+    context = {'form': form}
+    return render(request, 'user/distributor_vaccine.html', context)
 
 
 @login_required
@@ -90,10 +112,15 @@ def patient_main(request):
 def patient_profile(request):
     return render(request, 'user/patient_profile.html')
 
-@login_required
-@patient_required
-def patient_appointments(request):
-    return render(request, 'user/patient_appointments.html')
+@method_decorator([login_required, patient_required], name='dispatch')
+class PatientAppointmentView(ListView):
+    model = Appointment
+    template_name = 'user/patient_appointments.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['now'] = timezone.now()
+        return context
 
 @login_required
 @patient_required
@@ -112,8 +139,19 @@ def physician_main(request):
 def physician_profile(request):
     return render(request, 'user/physician_profile.html')
 
+@login_required
+@physician_required
+def physician_appointments(request):
+    form = PhysicianApptAddForm()
+    if request.method == 'POST':
+        form = PhysicianApptAddForm(request.POST)
+        if form.is_valid():
+            form.save()
 
+            return redirect('physician_profile')
 
+    context = {'form': form}
+    return render(request, 'user/physician_appointments_add.html', context)
 
 def distributor_sign_up(request):
     form = DistributorSignUpForm()

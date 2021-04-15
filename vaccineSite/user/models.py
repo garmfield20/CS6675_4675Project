@@ -25,7 +25,7 @@ livingChoices = ((1, "Independent (1 person)"), (2, "Small Group (2-6)"),
                  (3, "Small Group Housing (7 - 20)"), (4, "Large Group Housing (21+)"),
                  (5, "Assisted Living"), (6, "Live with someone that is at risk"))
 
-priorityChoices = (('low', 'low'), ('medium', 'medium'), ('high', 'high'))
+# priorityChoices = (('low', 'low'), ('medium', 'medium'), ('high', 'high'))
 
 
 class Account(AbstractUser):
@@ -41,39 +41,38 @@ class Account(AbstractUser):
 
 
 class Patient(models.Model):
-    user = models.OneToOneField(Account, on_delete=models.CASCADE, primary_key=True)
+    user = models.OneToOneField(Account, on_delete=models.CASCADE, default=None)
     age = models.IntegerField(default=0)
     preexisting = MultiSelectField(choices=preexistingChoices, default=None)
-    # check box list of occupations
     occupation = MultiSelectField(choices=occupationChoices, default=None)
-    # check box list of living situations
     living_situation = MultiSelectField(choices=livingChoices, default=None)
 
     # make this based on prexisting, occupation, and living situation
     # red flags
     # options: low, medium, high
 
-    priority = models.CharField(choices=priorityChoices, default=None, max_length=256)
+    # priority = models.CharField(choices=priorityChoices, default=None, max_length=256)
 
     def __str__(self):
         return self.user.username
 
 
 class Distributor(models.Model):
-    user = models.OneToOneField(Account, on_delete=models.CASCADE, primary_key=True)
-    name = models.CharField(max_length=256)
+    user = models.OneToOneField(Account, on_delete=models.CASCADE, default=None)
+
     last_update = models.DateField(default='2021-04-10')
     registration_date = models.DateField(default='2021-04-10')
     update_count = models.IntegerField(default=0)
-    rating = models.FloatField(default=5)
-    # physicians = models.ForeignKey(physicians, on_delete=models.RESTRICT)
+   #rating = models.FloatField(default=5)
 
     def __str__(self):
         return self.user.username
 
 
 class Physician(models.Model):
-    user = models.OneToOneField(Account, on_delete=models.CASCADE, primary_key=True)
+    user = models.OneToOneField(Account, on_delete=models.CASCADE, default=None)
+    distributor = models.ForeignKey('Distributor', on_delete=models.CASCADE)
+
 
     def __str__(self):
         return self.user.username
@@ -82,21 +81,25 @@ class Physician(models.Model):
 class Vaccine(models.Model):
     vaccine_id = models.CharField(max_length=256)
     brand = models.CharField(max_length=256)
-    dose_required = models.IntegerField(default=2)
-    if_used = models.BooleanField(default=False)
+    dose_required = models.IntegerField()
+    if_used = models.BooleanField(default=False, blank=True)
     expiration_date = models.DateField()
 
 
 class Appointment(models.Model):
-    startTime = models.DateTimeField()
-    endTime = models.DateTimeField()
-    currphysician = models.OneToOneField(Physician, on_delete=models.RESTRICT)
-    patient = models.OneToOneField(Patient, on_delete=models.RESTRICT)
-    vaccineName = models.OneToOneField(Vaccine, on_delete=models.RESTRICT, max_length=256)
+    start_time = models.DateTimeField()
+    end_time = models.DateTimeField()
+    physician = models.OneToOneField('Physician', on_delete=models.CASCADE, default=None, blank=True, null =True)
+    patient = models.OneToOneField('Patient', on_delete=models.CASCADE, default=None, blank=True, null=True)
+    distributor = models.ForeignKey('Distributor', on_delete=models.CASCADE, default=None)
+    vaccine_name = models.OneToOneField(Vaccine, on_delete=models.RESTRICT, max_length=256)
     dose = models.IntegerField(default=1)
 
     class Meta:
-        unique_together = (('currphysician', 'patient', 'vaccineName'),)
+        unique_together = (('physician', 'patient', 'vaccine_name'),)
+
+
+# class Profile(models.Model):
 
 
 

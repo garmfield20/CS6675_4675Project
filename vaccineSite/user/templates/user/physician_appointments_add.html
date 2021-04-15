@@ -2,14 +2,15 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Distributor Appointment Page</title>
+    <title>Physician Appointment Page</title>
 </head>
 <body>
     <h1>
-        This is the distributor appointment page
+        This is the Physician appointment page
     </h1>
     <ul>
-    {% for appointment in object_list %}
+    
+    {% for appointment in Appointment.objects %}
         {% if appointment.distributor == user.distributor %}
     
         <li>Current physician: {{ appointment.currphysician }}</li>

@@ -3,22 +3,26 @@ from django.contrib.auth.forms import UserCreationForm
 from django.db import transaction
 from django.forms.utils import ValidationError
 
-from .models import Account, Patient, Distributor, Physician
+from .models import Account, Patient, Distributor, Physician, Vaccine, Appointment
 
 
 class CreateUserForm(UserCreationForm):
     class Meta:
         model = Account
-        fields = ['username', 'email', 'password1', 'password2']
+        fields = ['username', 'email', 'password1', 'password2', 'address_line', 'zip_code',
+         'city', 'state', 'country']
+
 
 
 class DistributorSignUpForm(UserCreationForm):
+
     registration_date = forms.DateField()
     rating = forms.FloatField()
 
     class Meta(UserCreationForm.Meta):
         model = Account
-        fields = ['username', 'email', 'password1', 'password2', 'address_line', 'zip_code', 'city', 'state', 'country']
+        fields = ['username', 'email', 'password1', 'password2', 'address_line', 'zip_code',
+         'city', 'state', 'country']
 
     @transaction.atomic
     def save(self, commit=True):
@@ -27,31 +31,89 @@ class DistributorSignUpForm(UserCreationForm):
         if commit:
             user.save()
 
+        
         distributor = Distributor.objects.create(user=user)
         distributor.registration_date = self.cleaned_data.get('registration_date')
         distributor.last_update = self.cleaned_data.get('registration_date')
-        distributor.rating = self.cleaned_data.get('rating')
+        #distributor.rating = self.cleaned_data.get('rating')
         distributor.save()
 
         return user
+    
 
+class DistributorApptAddForm(forms.ModelForm):
+    start_time = forms.DateTimeField()
+    end_time = forms.DateTimeField()
+    physician = forms.ModelChoiceField(queryset = Physician.objects, required=False, blank=True)
+    patient = forms.ModelChoiceField(queryset = Patient.objects, required=False, blank =True)
+    distributor = forms.ModelChoiceField(queryset = Distributor.objects)
+    vaccine_name = forms.ModelChoiceField(queryset = Vaccine.objects)
+    dose = forms.IntegerField()
+
+    class Meta:
+        model = Appointment
+        fields = ['start_time','end_time', 'physician','patient','vaccine_name', 'dose']
+
+    def save(self, commit=True):
+        appointment = Appointment()
+        appointment.distributor = self.cleaned_data.get('distributor')
+        appointment.start_time = self.cleaned_data.get('start_time')
+        appointment.end_time = self.cleaned_data.get('end_time')
+        appointment.physician = self.cleaned_data.get('physician')
+        appointment.patient = self.cleaned_data.get('patient')
+        appointment.vaccine_name = self.cleaned_data.get('vaccine_name')
+        appointment.dose = self.cleaned_data.get('dose')
+        appointment.save()
+
+
+class VaccineForm(forms.ModelForm):
+    vaccine_id = forms.CharField(max_length=256)
+    brand = forms.CharField(max_length=256)
+    dose_required = forms.IntegerField()
+    if_used = forms.BooleanField()
+    expiration_date = forms.DateField()
+    
+    class Meta:
+        model = Vaccine
+        fields = ['vaccine_id','brand', 'dose_required','if_used','expiration_date']
+    def save(self, commit=True):
+        vaccine = Vaccine()
+        vaccine.vaccine_id = self.cleaned_data.get('vaccine_id')
+        vaccine.brand = self.cleaned_data.get('brand')
+        vaccine.dose_required = self.cleaned_data.get('dose_required')
+        vaccine.if_used = self.cleaned_data.get('if_used')
+        vaccine.expiration_date = self.cleaned_data.get('expiration_date')
+        vaccine.save()
+
+    
 
 class PhysicianSignUpForm(UserCreationForm):
-
+    distributor = forms.ModelChoiceField(queryset = Distributor.objects)
     class Meta(UserCreationForm.Meta):
         model = Account
-        fields = ['username', 'email', 'password1', 'password2', 'first_name', 'last_name', 'address_line', 'zip_code', 'city', 'state', 'country']
+        fields = ['username', 'email', 'password1', 'password2', 'first_name', 'last_name',
+        'address_line', 'zip_code', 'city', 'state', 'country']
 
     def save(self, commit=True):
         user = super().save(commit=False)
         user.is_physician = True
         if commit:
             user.save()
-
         physician = Physician(user=user)
+        physician.distributor=self.cleaned_data.get('distributor')
         physician.save()
 
         return user
+
+class PhysicianApptAddForm(forms.ModelForm):
+    physician = forms.ModelChoiceField(queryset = Physician.objects, required=False, blank=True)
+    class Meta:
+        model = Appointment
+        fields = ['physician']
+    def save(self, commit=True):
+        appointment = Appointment()
+        appointment.physician = self.cleaned_data.get('physician')
+        appointment.save()
 
 
 class PatientSignUpForm(UserCreationForm):
@@ -65,7 +127,7 @@ class PatientSignUpForm(UserCreationForm):
                           (16, "Sickle cell disease"),
                           (17, "Solid organ or blood stem cell transplantation"), (18, "Substance use disorders"),
                           (19, "Cystic fibrosis"), (20, "Neurologic conditions"), (21, "Thalassemia"), (22, "Asthma"),
-                          (23, "Hypertension"), (24, "Liver disease"), (25, "Immune Deficiencies"))
+                          (23, "Hypertension"), (24, "Liver disease"), (25, "Immune Deficiencies"), (26, "None of the above"))
     preexisting = forms.MultipleChoiceField(
         choices=preexistingChoices,
         widget=forms.CheckboxSelectMultiple,
@@ -92,29 +154,33 @@ class PatientSignUpForm(UserCreationForm):
         required=True
     )
 
-    priority = forms.ChoiceField(
-        choices=((1, 'low'), (2, 'medium'), (3, 'high')),
-        required=True
-    )
-
+    # priority = forms.ChoiceField(
+    #     choices=((1, 'low'), (2, 'medium'), (3, 'high')),
+    #     required=True
+    # )
 
     class Meta(UserCreationForm.Meta):
         model = Account
-        fields = ['username', 'email', 'password1', 'password2', 'first_name', 'last_name', 'address_line', 'zip_code',
-                  'city', 'state', 'country']
+        fields = ['username', 'email', 'password1', 'password2', 'first_name', 'last_name',
+        'address_line', 'zip_code', 'city', 'state', 'country']
 
     def save(self, commit=True):
         user = super().save(commit=False)
         user.is_patient = True
         if commit:
             user.save()
-
-        patient = Patient.objects.create(user=user)
+        patient = Patient(user=user)
         patient.age = self.cleaned_data.get('age')
+
         patient.occupation = self.cleaned_data.get('occupation')
         patient.preexisting = self.cleaned_data.get('preexisting')
         patient.living_situation = self.cleaned_data.get('living')
-        patient.priority = self.cleaned_data.get('priority')
+        # patient.priority = self.cleaned_data.get('priority')
         patient.save()
 
         return user
+
+
+# class PatientApptBookForm(UserCreationForm):
+
+    
