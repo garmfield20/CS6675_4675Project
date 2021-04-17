@@ -66,7 +66,11 @@ class DistributorProfileView(ListView):
 
     def get_queryset(self):
         distributor_query = Distributor.objects.get(user=self.request.user)
-        physician_query = Physician.objects.get(distributor=distributor_query)
+        physician_query = Physician.objects.filter(distributor=distributor_query)
+        physician_name = [_.user.username for _ in physician_query]
+
+        distributor_query.physician = property(physician_name)
+        # print(distributor_query, distributor_query.physician.fget)
         return distributor_query
 
 
