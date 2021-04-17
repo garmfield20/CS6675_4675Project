@@ -17,7 +17,7 @@ class CreateUserForm(UserCreationForm):
 class DistributorSignUpForm(UserCreationForm):
 
     registration_date = forms.DateField()
-    rating = forms.FloatField()
+    # rating = forms.FloatField()
 
     class Meta(UserCreationForm.Meta):
         model = Account

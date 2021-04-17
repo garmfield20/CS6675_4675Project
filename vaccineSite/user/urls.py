@@ -1,6 +1,6 @@
 from django.urls import path
 from . import views
-from .views import AppointmentView, PatientAppointmentView
+from .views import AppointmentView, PatientAppointmentView, DistributorProfileView, PatientProfileView, PhysicianProfileView
 from django.contrib.auth import views as auth_views
 
 urlpatterns = [
@@ -13,17 +13,17 @@ urlpatterns = [
     # should contain: 'welcome {distributor name}' , rating score, days since last update
     # buttons to go to profile, view appointments, add appointments, and add vaccines 
     path('distributor', views.distributor_main, name='distributor_main'),
-    path('distributor/profile', views.distributor_profile, name = 'distributor_profile'),
+    path('distributor/profile', DistributorProfileView.as_view(), name='distributor_profile'),
     path('distributor/appointments', AppointmentView.as_view(), name='distributor_appointments'),
     path('distributor/appointments/add', views.distributor_appointments_add, name = 'distributor_appointments_add'),
     path('distributor/vaccine', views.vaccine, name = 'vaccine'),
 
     path('physician', views.physician_main, name='physician_main'),
-    path('physician/profile', views.physician_profile, name = 'physician_profile'),
+    path('physician/profile', PhysicianProfileView.as_view(), name = 'physician_profile'),
     path('physician/appointments', views.physician_appointments, name = 'physician_appointments'),
 
     path('patient', views.patient_main, name='patient_main'),
-    path('patient/profile', views.patient_profile, name = 'patient_profile'),
+    path('patient/profile', PatientProfileView.as_view(), name = 'patient_profile'),
     path('patient/appointments', PatientAppointmentView.as_view(), name = 'patient_appointments'),
     path('patient/appointments/book', views.patient_appointments_book, name = 'patient_appointments_book'),
 

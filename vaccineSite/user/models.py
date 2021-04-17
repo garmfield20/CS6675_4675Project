@@ -82,7 +82,6 @@ class Vaccine(models.Model):
     vaccine_id = models.CharField(max_length=256)
     brand = models.CharField(max_length=256)
     dose_required = models.IntegerField()
-    if_used = models.BooleanField(default=False, blank=True)
     expiration_date = models.DateField()
 
 
