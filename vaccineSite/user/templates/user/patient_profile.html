@@ -5,12 +5,26 @@
     <title>Patient Profile</title>
 </head>
 <body>
-    <h1>
-        This is a patient profile page
-    </h1>
-    <form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    </form>
+    <ul>
+    {% for profile in object_list %}
+
+        <h1>Patient user name: {{ profile.user.username}}</h1>
+        <li>First name: {{ profile.user.first_name}}</li>
+        <li>Last name: {{ profile.user.last_name}}</li>
+        <li>Age: {{ profile.age}}</li>
+        <li>Address: {{ profile.user.address_line}}</li>
+        <li>Zip code: {{ profile.user.zip_code}}</li>
+        <li>City: {{ profile.user.city}}</li>
+        <li>State: {{ profile.user.state}}</li>
+        <li>Country: {{ profile.user.country}}</li>
+        <li>Pre-existing conditions: {{ profile.preexisting}}</li>
+        <li>Occupation: {{ profile.occupation}}</li>
+        <li>Living_situation: {{ profile.living_situation}}</li>
+
+
+    {% empty %}
+        <li>No profile yet.</li>
+    {% endfor %}
+    </ul>
 </body>
 </html>

@@ -5,12 +5,14 @@
     <title>Distributor Profile</title>
 </head>
 <body>
-    <h1>
-        This is a distributor profile page
-    </h1>
-    <form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    </form>
+        <h1>Distributor user name: {{ object_list.user.username }}</h1>
+        <li>Address: {{ object_list.user.address_line}}</li>
+        <li>Zip code: {{ object_list.user.zip_code}}</li>
+        <li>City: {{ object_list.user.city}}</li>
+        <li>State: {{ object_list.user.state}}</li>
+        <li>Country: {{ object_list.user.country}}</li>
+        <li>Physician: {{ object_list.physician.fget}}</li>
+
+    </ul>
 </body>
 </html>

@@ -2,22 +2,24 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Distributor Appointment Page</title>
+    <title>Physician Appointment Page</title>
 </head>
 <body>
     <h1>
-        This is the distributor appointment page
+        This is the Physician appointment page
     </h1>
     <ul>
-    {% for appointment in object_list %}
-
-        <li>Current physician: {{ appointment.physician }}</li>
+    
+    {% for appointment in Appointment.objects %}
+        {% if appointment.distributor == user.distributor %}
+    
+        <li>Current physician: {{ appointment.currphysician }}</li>
         <li>Patient: {{ appointment.patient }}</li>
-        <li>Vaccine name: {{ appointment.vaccine_name.brand }}</li>
-        <li>Vaccine name: {{ appointment.vaccine_name.vaccine_id }}</li>
-        <li>startTime: {{ appointment.start_time  }}</li>
-        <li>endTime: {{ appointment.end_time }}</li>
+        <li>Vaccine name: {{ appointment.vaccineName.vaccine_id }}</li>
+        <li>startTime: {{ appointment.startTime }}</li>
+        <li>endTime: {{ appointment.endTime }}</li>
         <li>does: {{ appointment.dose }}</li>
+        {% endif %}
     {% empty %}
         <li>No articles yet.</li>
     {% endfor %}
