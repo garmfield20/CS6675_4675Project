@@ -158,3 +158,5 @@ def physician_sign_up(request):
 
     context = {'form': form}
     return render(request, 'user/physician_signup.html', context)
+
+

@@ -4,9 +4,46 @@
     <meta charset="UTF-8">
     <title>Account home page</title>
 </head>
-<body>
+<style> 
+    body {
+        background: #89CFF0;
+    }
+
+    h1 {
+        color: white;
+        text-align: center;
+    }
+
+    button {
+        color: black;
+        width: 300px;
+        height: 100px;
+        margin-top: 50px;
+        margin-left: 846px;
+        font-size: 28px;
+    }
+
+    #firstRect{
+        fill: white;
+        fill-opacity: .56;
+    }
+
+    
+
+</style>
+
+
+<body >
     <h1>
-        This is sign up home page
+        Select User Type
     </h1>
+
+    <button onClick="window.location='signup/patient';" type="button"> Patient </button>
+    <button onClick="window.location='signup/physician';" type="button"> Physician </button>
+    <button onClick="window.location='signup/distributor';" type="button"> Distributor </button>
+
+   
 </body>
+
+
 </html>

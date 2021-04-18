@@ -4,14 +4,56 @@
     <meta charset="UTF-8">
     <title>Physician Sign Up</title>
 </head>
+<style>
+    body {
+        background: #89CFF0;
+    }
+
+    h1 {
+        margin-left: 100px;
+        color: white;
+        text-align: center;
+    }
+
+    #cssForm{
+        color: black;
+        font-size: 20px;
+        margin-top: 40px;
+        margin-left: 770px;
+        position: absolute;
+    }
+
+    #firstRect{
+        fill: white;
+        fill-opacity: .56;
+    }
+
+    button {
+        color: black;
+        width: 280px;
+        height: 35px;
+        margin-top: 60px;
+        margin-left: 110px;
+        font-size: 28px;
+    }
+
+
+</style>
 <body>
     <h1>
-        This is physician sign up
+        Physician Sign Up
     </h1>
-    <form method="post">
+    <form id = "cssForm" method="post">
     {% csrf_token %}
     {{ form.as_p }}
     <button type="submit">Sign up</button>
   </form>
 </body>
+
+<body>
+     <svg id = "firstRect" width="2400" height="2800">
+        <rect x = 460  y = 20 width="1200" height="1000" />
+     </svg>
+</body>
+
 </html>

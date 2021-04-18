@@ -2,13 +2,15 @@ from django.urls import path
 from . import views
 from .views import AppointmentView
 from django.contrib.auth import views as auth_views
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('signup', views.signup, name='signup'),
     path('signup/distributor', views.distributor_sign_up, name='distributor_sign_up'),
     path('signup/physician', views.physician_sign_up, name='physician_sign_up'),
     path('signup/patient', views.patient_sign_up, name='patient_sign_up'),
-    path('login', views.user_login, name='login'),
+    path('login', views.user_login, name='login'), #finished 
 
     path('distributor', views.distributor_main, name='distributor_main'),
     path('distributor/profile', views.distributor_profile, name = 'distributor_profile'),
