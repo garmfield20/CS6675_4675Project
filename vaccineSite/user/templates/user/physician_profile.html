@@ -4,12 +4,28 @@
     <meta charset="UTF-8">
     <title>Physician Profile</title>
 </head>
+<style>
+    h1 {
+        text-align: center;
+    }
+    #moveText{ 
+        text-align: center;
+        font-size: 20px;
+        list-style-type: none;
+     }
+     body{
+        background-image: url("https://upload.wikimedia.org/wikipedia/commons/9/91/Doctor_with_Nurse_Cartoon.svg");
+        background-size: 106%;
+        margin-left: 10px;
+        text-align: center
+     }
+</style>
 <body>
-    <ul>
+    <ul id = "moveText">
     {% for profile in object_list %}
 
-        <h1>Patient user name: {{ profile.user.username}}</h1>
-        <li>First name: {{ profile.user.first_name}}</li>
+        <h1> Physician Username: {{ profile.user.username}}</h1>
+        <li> First name: {{ profile.user.first_name}}</li>
         <li>Last name: {{ profile.user.last_name}}</li>
         <li>Address: {{ profile.user.address_line}}</li>
         <li>Zip code: {{ profile.user.zip_code}}</li>

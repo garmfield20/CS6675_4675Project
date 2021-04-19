@@ -4,10 +4,34 @@
     <meta charset="UTF-8">
     <title>Physician Main Page</title>
 </head>
+<style>
+	body{ 
+		background-image: url("https://upload.wikimedia.org/wikipedia/commons/9/91/Doctor_with_Nurse_Cartoon.svg");
+		 background-size: 105%;
+
+	}
+	h1 {
+		text-align: center;
+	}
+	button {
+        color: black;
+        width: 300px;
+        height: 100px;
+        margin-top: 50px;
+        margin-left: 846px;
+        font-size: 28px;
+    }
+</style>
 <body>
     <h1>
-        This is a physician main page
+        Physician Main Page
     </h1>
+   
+
+    <button onClick="window.location='physician/profile';" type="button"> View Profile </button>
+    <button onClick="window.location='physician/appointments';" type="button"> View Appointments </button>
+ 
+
     <form method="post">
     {% csrf_token %}
     {{ form.as_p }}
