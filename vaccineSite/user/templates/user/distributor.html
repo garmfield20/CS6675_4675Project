@@ -5,12 +5,64 @@
     <title>Distributor Main Page</title>
 </head>
 <body>
-    <h1>
-        This is the distributor main page
-    </h1>
-    <form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    </form>
+    <style>
+        body {
+            font-family: "Trebuchet MS", Verdana, sans-serif;
+            font-size: 16px;
+            background-color: lightskyblue;
+            color: #696969;
+            padding: 3px;
+        }
+
+        #main {
+            padding: 5px;
+            padding-left: 15px;
+            padding-right: 15px;
+            padding-bottom: 25px;
+            background-color: #ffffff;
+            border-radius: 0 0 5px 5px;
+        }
+
+        h1 {
+            font-family: Georgia, serif;
+            border-bottom: 3px solid #030099;
+            color: #003d99;
+            font-size: 30px;
+        }
+
+        button {
+            float: right;
+            padding: 3px;
+            padding-left: 5px;
+            padding-right: 5px;
+            margin: 2px;
+        }
+
+        li {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            font-size: 20px;
+        }
+    </style>
+    <div id="main">
+        <h1>
+            Distributor Portal
+
+            <button onClick="window.location='/user/logout';" type="button">Sign out</button>
+            <button onClick="window.location='/user/distributor/profile';" type="button">Profile</button>
+            <button onClick="window.location='/user/distributor/vaccine';" type="button">Vaccine</button>
+            <button onClick="window.location='/user/distributor/appointments/add';" type="button">Add Appointments</button>
+            <button onClick="window.location='/user/distributor/appointments';" type="button">Appointments</button>
+            <button onClick="window.location='/user/distributor';" type="button">Home</button>
+        </h1>
+        <h2>
+            Main Page
+        </h2>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+        </form>
+    </div>
 </body>
 </html>

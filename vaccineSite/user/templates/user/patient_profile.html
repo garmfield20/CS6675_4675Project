@@ -5,26 +5,80 @@
     <title>Patient Profile</title>
 </head>
 <body>
-    <ul>
-    {% for profile in object_list %}
+    <style>
+        body {
+            font-family: "Trebuchet MS", Verdana, sans-serif;
+            font-size: 16px;
+            background-color: lightskyblue;
+            color: #696969;
+            padding: 3px;
+        }
 
-        <h1>Patient user name: {{ profile.user.username}}</h1>
-        <li>First name: {{ profile.user.first_name}}</li>
-        <li>Last name: {{ profile.user.last_name}}</li>
-        <li>Age: {{ profile.age}}</li>
-        <li>Address: {{ profile.user.address_line}}</li>
-        <li>Zip code: {{ profile.user.zip_code}}</li>
-        <li>City: {{ profile.user.city}}</li>
-        <li>State: {{ profile.user.state}}</li>
-        <li>Country: {{ profile.user.country}}</li>
-        <li>Pre-existing conditions: {{ profile.preexisting}}</li>
-        <li>Occupation: {{ profile.occupation}}</li>
-        <li>Living_situation: {{ profile.living_situation}}</li>
+        #main {
+            padding: 5px;
+            padding-left: 15px;
+            padding-right: 15px;
+            padding-bottom: 25px;
+            background-color: #ffffff;
+            border-radius: 0 0 5px 5px;
+        }
+
+        h1 {
+            font-family: Georgia, serif;
+            border-bottom: 3px solid #030099;
+            color: #003d99;
+            font-size: 30px;
+        }
+
+        button {
+            float: right;
+            padding: 3px;
+            padding-left: 5px;
+            padding-right: 5px;
+            margin: 2px;
+        }
+
+        li {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            font-size: 20px;
+        }
+    </style>
+    <div id="main">
+        <h1>
+            Patient Portal
+
+            <button onClick="window.location='/user/logout';" type="button">Sign out</button>
+            <button onClick="window.location='/user/patient/profile';" type="button">Profile</button>
+            <button onClick="window.location='/user/patient/appointments/book';" type="button">Book Appointment</button>
+            <button onClick="window.location='/user/patient/appointments';" type="button">Appointments</button>
+            <button onClick="window.location='/user/patient';" type="button">Home</button>
+        </h1>
+        <h2>
+            Profile
+        </h2>
+        <ul>
+            {% for profile in object_list %}
+
+            <li><b>Patient User Name:</b> {{ profile.user.username}}</li>
+            <li><b>First Name:</b> {{ profile.user.first_name}}</li>
+            <li><b>Last Name:</b> {{ profile.user.last_name}}</li>
+            <li><b>Age:</b> {{ profile.age}}</li>
+            <li><b>Address:</b> {{ profile.user.address_line}}</li>
+            <li><b>Zip Code:</b> {{ profile.user.zip_code}}</li>
+            <li><b>City:</b> {{ profile.user.city}}</li>
+            <li><b>State:</b> {{ profile.user.state}}</li>
+            <li><b>Country:</b> {{ profile.user.country}}</li>
+            <li><b>Pre-existing Conditions:</b> {{ profile.preexisting}}</li>
+            <li><b>Occupation:</b> {{ profile.occupation}}</li>
+            <li><b>Living Situation:</b> {{ profile.living_situation}}</li>
 
 
-    {% empty %}
-        <li>No profile yet.</li>
-    {% endfor %}
-    </ul>
+            {% empty %}
+            <li>No profile yet.</li>
+            {% endfor %}
+        </ul>
+    </div>
 </body>
 </html>

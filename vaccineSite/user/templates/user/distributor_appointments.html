@@ -5,30 +5,81 @@
     <title>Distributor Appointment Page</title>
 </head>
 <body>
-    <h1>
-        This is the distributor appointment page
-    </h1>
-    <ul>
-    {% for appointment in object_list %}
+    <style>
+        body {
+            font-family: "Trebuchet MS", Verdana, sans-serif;
+            font-size: 16px;
+            background-color: lightskyblue;
+            color: #696969;
+            padding: 3px;
+        }
 
-        <li>Current physician: {{ appointment.physician }}</li>
-        <li>Patient: {{ appointment.patient }}</li>
-        <li>Vaccine name: {{ appointment.vaccine_name.brand }}</li>
-        <li>Vaccine name: {{ appointment.vaccine_name.vaccine_id }}</li>
-        <li>startTime: {{ appointment.start_time  }}</li>
-        <li>endTime: {{ appointment.end_time }}</li>
-        <li>does: {{ appointment.dose }}</li>
-    {% empty %}
-        <li>No articles yet.</li>
-    {% endfor %}
+        #main {
+            padding: 5px;
+            padding-left: 15px;
+            padding-right: 15px;
+            padding-bottom: 25px;
+            background-color: #ffffff;
+            border-radius: 0 0 5px 5px;
+        }
 
-    
-    </ul>
-<!--    <p>Start time: {{ object.StartTime }}</p>-->
-<!--    <p>End time: {{ object.EndTime }}</p>-->
-<!--    <form method="post">-->
-<!--    {% csrf_token %}-->
-<!--    {{ form.as_p }}-->
-<!--    </form>-->
+        h1 {
+            font-family: Georgia, serif;
+            border-bottom: 3px solid #030099;
+            color: #003d99;
+            font-size: 30px;
+        }
+
+        button {
+            float: right;
+            padding: 3px;
+            padding-left: 5px;
+            padding-right: 5px;
+            margin: 2px;
+        }
+
+        li {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            font-size: 20px;
+        }
+    </style>
+    <div id="main">
+        <h1>
+            Distributor Portal
+
+            <button onClick="window.location='/user/logout';" type="button">Sign out</button>
+            <button onClick="window.location='/user/distributor/profile';" type="button">Profile</button>
+            <button onClick="window.location='/user/distributor/vaccine';" type="button">Vaccine</button>
+            <button onClick="window.location='/user/distributor/appointments/add';" type="button">Add Appointments</button>
+            <button onClick="window.location='/user/distributor/appointments';" type="button">Appointments</button>
+            <button onClick="window.location='/user/distributor';" type="button">Home</button>
+        </h1>
+        <h2>
+            Current Appointments:
+        </h2>
+        <ul>
+            {% for appointment in object_list %}
+
+            <li><b>Current Physician:</b> {{ appointment.physician }}</li>
+            <li><b>Patient:</b> {{ appointment.patient }}</li>
+            <li><b>Vaccine Name:</b> {{ appointment.vaccine_name.brand }}</li>
+            <li><b>Vaccine Name:</b> {{ appointment.vaccine_name.vaccine_id }}</li>
+            <li><b>Start Time:</b> {{ appointment.start_time  }}</li>
+            <li><b>End Time:</b> {{ appointment.end_time }}</li>
+            <li><b>Dose:</b> {{ appointment.dose }}</li>
+            {% empty %}
+            <li>No appointments yet.</li>
+            {% endfor %}
+
+
+        </ul>
+        <!--    <p>Start time: {{ object.StartTime }}</p>-->
+        <!--    <p>End time: {{ object.EndTime }}</p>-->
+        <!--    <form method="post">-->
+        <!--    {% csrf_token %}-->
+        <!--    {{ form.as_p }}-->
+        <!--    </form>-->
 </body>
 </html>

@@ -5,32 +5,82 @@
     <title>Physician Appointment Page</title>
 </head>
 <body>
-    <h1>
-        This is the Physician appointment page
-    </h1>
-    <ul>
-    
-    {% for appointment in Appointment.objects %}
-        {% if appointment.distributor == user.distributor %}
-    
-        <li>Current physician: {{ appointment.currphysician }}</li>
-        <li>Patient: {{ appointment.patient }}</li>
-        <li>Vaccine name: {{ appointment.vaccineName.vaccine_id }}</li>
-        <li>startTime: {{ appointment.startTime }}</li>
-        <li>endTime: {{ appointment.endTime }}</li>
-        <li>does: {{ appointment.dose }}</li>
-        {% endif %}
-    {% empty %}
-        <li>No articles yet.</li>
-    {% endfor %}
+    <style>
+        body {
+            font-family: "Trebuchet MS", Verdana, sans-serif;
+            font-size: 16px;
+            background-color: lightskyblue;
+            color: #696969;
+            padding: 3px;
+        }
 
-    
-    </ul>
-<!--    <p>Start time: {{ object.StartTime }}</p>-->
-<!--    <p>End time: {{ object.EndTime }}</p>-->
-<!--    <form method="post">-->
-<!--    {% csrf_token %}-->
-<!--    {{ form.as_p }}-->
-<!--    </form>-->
+        #main {
+            padding: 5px;
+            padding-left: 15px;
+            padding-right: 15px;
+            padding-bottom: 25px;
+            background-color: #ffffff;
+            border-radius: 0 0 5px 5px;
+        }
+
+        h1 {
+            font-family: Georgia, serif;
+            border-bottom: 3px solid #030099;
+            color: #003d99;
+            font-size: 30px;
+        }
+
+        button {
+            float: right;
+            padding: 3px;
+            padding-left: 5px;
+            padding-right: 5px;
+            margin: 2px;
+        }
+
+        li {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            font-size: 20px;
+        }
+    </style>
+    <div id="main">
+        <h1>
+            Physician Portal
+
+            <button onClick="window.location='/user/logout';" type="button">Sign out</button>
+            <button onClick="window.location='/user/physician/profile';" type="button">Profile</button>
+            <button onClick="window.location='/user/physician/appointments';" type="button">Appointments</button>
+            <button onClick="window.location='/user/physician';" type="button">Home</button>
+        </h1>
+        <h2>
+            Schedule Additional Appointments:
+        </h2>
+        <ul>
+
+            {% for appointment in Appointment.objects %}
+            {% if appointment.distributor == user.distributor %}
+
+            <li><b>Current Physician:</b> {{ appointment.currphysician }}</li>
+            <li><b>Patient:</b> {{ appointment.patient }}</li>
+            <li><b>Vaccine Name:</b> {{ appointment.vaccineName.vaccine_id }}</li>
+            <li><b>Start Time:</b> {{ appointment.startTime }}</li>
+            <li><b>End Time:</b> {{ appointment.endTime }}</li>
+            <li><b>Dose:</b> {{ appointment.dose }}</li>
+            {% endif %}
+            {% empty %}
+            <li>No appointments available.</li>
+            {% endfor %}
+
+
+        </ul>
+        <!--    <p>Start time: {{ object.StartTime }}</p>-->
+        <!--    <p>End time: {{ object.EndTime }}</p>-->
+        <!--    <form method="post">-->
+        <!--    {% csrf_token %}-->
+        <!--    {{ form.as_p }}-->
+        <!--    </form>-->
+    </div>
 </body>
 </html>

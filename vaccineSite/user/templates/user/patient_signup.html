@@ -46,7 +46,8 @@
     <form id = "form" method="post">
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit">Sign up</button>
+    
+    <button onClick="window.location='/user/login';"  type="submit">Sign up</button>
   </form>
 </body>
 
