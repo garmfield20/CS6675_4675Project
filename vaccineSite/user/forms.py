@@ -46,9 +46,12 @@ class DistributorApptAddForm(forms.ModelForm):
     end_time = forms.DateTimeField()
     physician = forms.ModelChoiceField(queryset = Physician.objects, required=False, blank=True)
     patient = forms.ModelChoiceField(queryset = Patient.objects, required=False, blank =True)
-    distributor = forms.ModelChoiceField(queryset = Distributor.objects)
     vaccine_name = forms.ModelChoiceField(queryset = Vaccine.objects)
     dose = forms.IntegerField()
+
+    def __init__(self, user, *args, **kwargs):
+        self.user = user
+        super(DistributorApptAddForm, self).__init__(*args, **kwargs)
 
     class Meta:
         model = Appointment
@@ -56,7 +59,7 @@ class DistributorApptAddForm(forms.ModelForm):
 
     def save(self, commit=True):
         appointment = Appointment()
-        appointment.distributor = self.cleaned_data.get('distributor')
+        appointment.distributor = Distributor.objects.get(user=self.user)
         appointment.start_time = self.cleaned_data.get('start_time')
         appointment.end_time = self.cleaned_data.get('end_time')
         appointment.physician = self.cleaned_data.get('physician')
@@ -70,12 +73,12 @@ class VaccineForm(forms.ModelForm):
     vaccine_id = forms.CharField(max_length=256)
     brand = forms.CharField(max_length=256)
     dose_required = forms.IntegerField()
-    if_used = forms.BooleanField()
     expiration_date = forms.DateField()
     
     class Meta:
         model = Vaccine
-        fields = ['vaccine_id','brand', 'dose_required','if_used','expiration_date']
+        fields = ['vaccine_id', 'brand', 'dose_required', 'expiration_date']
+
     def save(self, commit=True):
         vaccine = Vaccine()
         vaccine.vaccine_id = self.cleaned_data.get('vaccine_id')
@@ -85,10 +88,10 @@ class VaccineForm(forms.ModelForm):
         vaccine.expiration_date = self.cleaned_data.get('expiration_date')
         vaccine.save()
 
-    
 
 class PhysicianSignUpForm(UserCreationForm):
     distributor = forms.ModelChoiceField(queryset = Distributor.objects)
+
     class Meta(UserCreationForm.Meta):
         model = Account
         fields = ['username', 'email', 'password1', 'password2', 'first_name', 'last_name',

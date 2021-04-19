@@ -70,7 +70,6 @@ class DistributorProfileView(ListView):
         physician_name = [_.user.username for _ in physician_query]
 
         distributor_query.physician = property(physician_name)
-        # print(distributor_query, distributor_query.physician.fget)
         return distributor_query
 
 
@@ -88,9 +87,9 @@ class AppointmentView(ListView):
 @login_required
 @distributor_required
 def distributor_appointments_add(request):
-    form = DistributorApptAddForm()
+    form = DistributorApptAddForm(request.user, request.POST)
     if request.method == 'POST':
-        form = DistributorApptAddForm(request.POST)
+        form = DistributorApptAddForm(request.user, request.POST)
         if form.is_valid():
             form.save()
 
