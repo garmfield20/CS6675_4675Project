@@ -4,7 +4,24 @@
     <meta charset="UTF-8">
     <title>Distributor Profile</title>
 </head>
+<style>
+    h1 {
+        text-align: center;
+    }
+    #moveText {
+        text-align: center;
+        font-size: 24px;
+        list-style-type: none;
+    }
+    body{
+        background-image: url("https://iot.eetimes.com/wp-content/uploads/sites/2/2019/07/factory-3550550_640.png");
+        background-size: 110%;
+        margin-left: 10px;
+        text-align: center
+     }
+</style>
 <body>
+    <ul id = "moveText"> 
         <h1>Distributor user name: {{ object_list.user.username }}</h1>
         <li>Address: {{ object_list.user.address_line}}</li>
         <li>Zip code: {{ object_list.user.zip_code}}</li>

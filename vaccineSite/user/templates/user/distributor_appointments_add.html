@@ -4,11 +4,31 @@
     <meta charset="UTF-8">
     <title>Distributor Appointment Add Page</title>
 </head>
+<style>
+    h1 {
+        margin-top: 0px;
+        text-align: center;
+        color: black;
+    }
+    body {
+        background-image: url("https://iot.eetimes.com/wp-content/uploads/sites/2/2019/07/factory-3550550_640.png");
+        background-repeat: no-repeat;
+        background-size:110%;
+        text-align: center;
+
+    }
+    #form1 { 
+        font-size: 20px;
+        list-style-type: none;
+        color: black;
+        font-size: 24px;
+    }
+</style>
 <body>
     <h1>
-        This is the distributor appointment add page
+        Distributor Add Apointment Page
     </h1>
-    <form method="post">
+    <form id = "form1" method="post">
     {% csrf_token %}
     {{ form.as_p }}
     <button type="submit">Save Appointment</button>
