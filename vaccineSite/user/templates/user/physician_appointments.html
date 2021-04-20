@@ -68,6 +68,7 @@
                 document.getElementById('currappt').value = ele.innerHTML;
             }
         </script>
+        <input type="hidden" name="currappt" id="currappt" value="''''"/>
         
         <ul>
             {% for appointment in object_list %}
@@ -79,8 +80,8 @@
             <li><b>Start Time:</b> {{ appointment.start_time  }}</li>
             <li><b>End Time:</b> {{ appointment.end_time }}</li>
             <li><b>Dose:</b> {{ appointment.dose }}</li>
-            <input type="hidden" name="currappt" id="currappt" value="{{ appointment }}"/>
-            <button onClick="window.location='/user/physician/appointments/add'" set style="float: left;" type="button">Sign Up</button>
+            
+            <button onClick="window.location='/user/physician/appointments/add';" currappt = appointment set style="float: left;" type="button">Sign Up</button>
             
             
             {% empty %}

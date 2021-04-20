@@ -179,16 +179,26 @@ class PhysicianProfileView(ListView):
 #     model = Appointment
 #     fields = ['physician']
 #     sucess_url = 'user/physician/profile'
-@login_required
-@physician_required
-def physician_appointments_book(request):
+# @login_required
+# @physician_required
+@method_decorator([login_required, physician_required], name='dispatch')
+class physician_appointments_book(UpdateView):
+    model = Appointment
+    fields = ['physician']
+    template_name ='user/physician_apppointments_add.html'
     # form = 
     # object = get_object()
-    request.POST = request.POST.copy()
-    physician = request.user
-    appointment = request.POST.get('currappt', None)
-    Appointment.objects.filter(id=appointment.id).update(physician=physician)
-    return render(request, 'user/physician_appointments.html')
+    def post(self, request):
+        self.object = self.get_object()
+        request.POST = request.POST.copy()
+        physician = request.user
+        appointment = request.POST.get('appointment', None)
+        Appointment.objects.filter(id=appointment.id).update(physician=physician)
+        return super(physician_appointments_book, self).post(request)
+
+    def get_object(self):
+        return Appointment.objects.get(pk=self.request.user.pk) #Appointment.objects.get(pk=self.request.POST.get('pk'))
+    # return render(request, 'user/physician_appointments.html')
 
     # return super(BaseUpdateView, self).post(request)
     
