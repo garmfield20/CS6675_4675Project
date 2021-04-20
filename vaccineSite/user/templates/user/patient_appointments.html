@@ -57,16 +57,13 @@
 
             <button onClick="window.location='/user/logout';" type="button">Sign out</button>
             <button onClick="window.location='/user/patient/profile';" type="button">Profile</button>
-            <button onClick="window.location='/user/patient/appointments/book';" type="button">Book Appointment</button>
-            <button onClick="window.location='/user/patient/appointments';" type="button">Appointments</button>
             <button onClick="window.location='/user/patient';" type="button">Home</button>
         </h1>
         <h2>
-            Scheduled Appointments:
+            Available Appointments:
         </h2>
         <ul>
             {% for appointment in object_list %}
-            {% if appointment.patient == user.patient %}
 
             <li><b>Current Physician:</b> {{ appointment.currphysician }}</li>
             <li><b>Patient:</b> {{ appointment.patient }}</li>
@@ -74,18 +71,12 @@
             <li><b>Start Time:</b> {{ appointment.startTime }}</li>
             <li><b>End Time:</b> {{ appointment.endTime }}</li>
             <li><b>Dose:</b> {{ appointment.dose }}</li>
-
-            {% endif %}
+            <button onClick="window.location='/user/patient_appointments_book';" style="float: left;" type="button">Sign up</button>
+            
             {% empty %}
-            <li>No articles yet.</li>
+            <li>No appointments available.</li>
             {% endfor %}
         </ul>
-        <!--    <p>Start time: {{ object.StartTime }}</p>-->
-        <!--    <p>End time: {{ object.EndTime }}</p>-->
-        <!--    <form method="post">-->
-        <!--    {% csrf_token %}-->
-        <!--    {{ form.as_p }}-->
-        <!--    </form>-->
     </div>
 </body>
 </html>

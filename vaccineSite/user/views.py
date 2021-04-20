@@ -12,6 +12,7 @@ from django.utils.decorators import method_decorator
 from django.views.generic import (CreateView, DeleteView, DetailView, ListView, UpdateView)
 from django.http import HttpResponse
 from django.template import loader
+from django.views.generic import UpdateView
 
 from .forms import PhysicianSignUpForm, DistributorSignUpForm, PatientSignUpForm, VaccineForm, CreateUserForm, \
     DistributorApptAddForm, PhysicianApptAddForm
@@ -74,7 +75,7 @@ class DistributorProfileView(ListView):
 
 
 @method_decorator([login_required, distributor_required], name='dispatch')
-class AppointmentView(ListView):
+class DistributorAppointmentView(ListView):
     model = Appointment
     template_name = 'user/distributor_appointments.html'
 
@@ -112,11 +113,15 @@ def vaccine(request):
     context = {'form': form}
     return render(request, 'user/distributor_vaccine.html', context)
 
+@method_decorator([login_required, patient_required], name='dispatch')
+class patient_main(ListView):
+    model = Appointment
+    template_name = 'user/patient.html'
 
-@login_required
-@patient_required
-def patient_main(request):
-    return render(request, 'user/patient.html')
+    def get_queryset(self):
+        queryset = Appointment.objects.all()
+        filtered_queryset = [_ for _ in queryset if _.patient == self.request.user.username]
+        return filtered_queryset
 
 
 @method_decorator([login_required, patient_required], name='dispatch')
@@ -135,48 +140,71 @@ class PatientAppointmentView(ListView):
     model = Appointment
     template_name = 'user/patient_appointments.html'
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['now'] = timezone.now()
-        return context
+    def get_queryset(self):
+        queryset = Appointment.objects.all()
+        filtered_queryset = [_ for _ in queryset if _.physician != None and _.patient == None]
+        return filtered_queryset
+    
+@method_decorator([login_required, patient_required], name='dispatch')
+class patient_appointments_book(UpdateView):
+    model = Appointment
+    fields = ['patient']
+    
+    sucess_url ='user/patient.html'
 
 
-@login_required
-@patient_required
-def patient_appointments_book(request):
-    return render(request, 'user/patient_appointments_book.html')
 
+@method_decorator([login_required, physician_required], name='dispatch')
+# will show current physician appointments
+class physician_main(ListView):
+    model = Appointment
+    template_name = 'user/physician.html'
 
-@login_required
-@physician_required
-def physician_main(request):
-    return render(request, 'user/physician.html')
+    def get_queryset(self):
+        queryset = Appointment.objects.all()
+        filtered_queryset = [_ for _ in queryset if _.physician == self.request.user.username]
+        return filtered_queryset
 
 
 @method_decorator([login_required, physician_required], name='dispatch')
 class PhysicianProfileView(ListView):
     model = Physician
     template_name = 'user/physician_profile.html'
-
     def get_queryset(self):
         queryset = Physician.objects.all()
         filtered_queryset = [_ for _ in queryset if _.user.username == self.request.user.username]
         return filtered_queryset
 
-
+# class physician_appointments_book(UpdateView):
+#     model = Appointment
+#     fields = ['physician']
+#     sucess_url = 'user/physician/profile'
 @login_required
 @physician_required
-def physician_appointments(request):
-    form = PhysicianApptAddForm()
-    if request.method == 'POST':
-        form = PhysicianApptAddForm(request.POST)
-        if form.is_valid():
-            form.save()
+def physician_appointments_book(request):
+    # form = 
+    # object = get_object()
+    request.POST = request.POST.copy()
+    physician = request.user
+    appointment = request.POST.get('currappt', None)
+    Appointment.objects.filter(id=appointment.id).update(physician=physician)
+    return render(request, 'user/physician_appointments.html')
 
-            return redirect('physician_profile')
+    # return super(BaseUpdateView, self).post(request)
+    
+    
 
-    context = {'form': form}
-    return render(request, 'user/physician_appointments_add.html', context)
+# available appointments 
+@method_decorator([login_required, physician_required], name='dispatch')
+class physician_appointments(ListView):
+    model = Appointment
+    template_name = 'user/physician_appointments.html'
+
+    def get_queryset(self):
+        queryset = Appointment.objects.all()
+        filtered_queryset = [_ for _ in queryset if _.physician == None and _.distributor == self.request.user.physician.distributor]
+        return filtered_queryset
+    
 
 
 def distributor_sign_up(request):

@@ -31,7 +31,6 @@ class DistributorSignUpForm(UserCreationForm):
         if commit:
             user.save()
 
-        
         distributor = Distributor.objects.create(user=user)
         distributor.registration_date = self.cleaned_data.get('registration_date')
         distributor.last_update = self.cleaned_data.get('registration_date')
@@ -69,6 +68,7 @@ class DistributorApptAddForm(forms.ModelForm):
         appointment.save()
 
 
+
 class VaccineForm(forms.ModelForm):
     vaccine_id = forms.CharField(max_length=256)
     brand = forms.CharField(max_length=256)
@@ -87,6 +87,7 @@ class VaccineForm(forms.ModelForm):
         vaccine.if_used = self.cleaned_data.get('if_used')
         vaccine.expiration_date = self.cleaned_data.get('expiration_date')
         vaccine.save()
+    
 
 
 class PhysicianSignUpForm(UserCreationForm):
@@ -107,6 +108,8 @@ class PhysicianSignUpForm(UserCreationForm):
         physician.save()
 
         return user
+
+
 
 class PhysicianApptAddForm(forms.ModelForm):
     physician = forms.ModelChoiceField(queryset = Physician.objects, required=False, blank=True)

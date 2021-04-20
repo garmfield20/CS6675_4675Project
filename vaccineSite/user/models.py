@@ -84,6 +84,9 @@ class Vaccine(models.Model):
     dose_required = models.IntegerField()
     expiration_date = models.DateField()
 
+    def __str__(self):
+        return self.vaccine_id
+
 
 class Appointment(models.Model):
     start_time = models.DateTimeField()
@@ -96,6 +99,7 @@ class Appointment(models.Model):
 
     class Meta:
         unique_together = (('physician', 'patient', 'vaccine_name'),)
+
 
 
 # class Profile(models.Model):

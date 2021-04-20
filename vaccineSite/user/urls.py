@@ -1,6 +1,6 @@
 from django.urls import path
 from . import views
-from .views import AppointmentView, PatientAppointmentView, DistributorProfileView, PatientProfileView, PhysicianProfileView
+from .views import DistributorAppointmentView, PatientAppointmentView, DistributorProfileView, PatientProfileView, PhysicianProfileView, physician_main, physician_appointments, patient_main, patient_appointments_book, physician_appointments_book
 from django.contrib.auth import views as auth_views
 from django.conf import settings
 from django.conf.urls.static import static
@@ -16,18 +16,19 @@ urlpatterns = [
     # buttons to go to profile, view appointments, add appointments, and add vaccines 
     path('distributor', views.distributor_main, name='distributor_main'),
     path('distributor/profile', DistributorProfileView.as_view(), name='distributor_profile'),
-    path('distributor/appointments', AppointmentView.as_view(), name='distributor_appointments'),
+    path('distributor/appointments', DistributorAppointmentView.as_view(), name='distributor_appointments'),
     path('distributor/appointments/add', views.distributor_appointments_add, name = 'distributor_appointments_add'),
     path('distributor/vaccine', views.vaccine, name = 'vaccine'),
 
-    path('physician', views.physician_main, name='physician_main'),
+    path('physician', physician_main.as_view(), name='physician_main'),
     path('physician/profile', PhysicianProfileView.as_view(), name = 'physician_profile'),
-    path('physician/appointments', views.physician_appointments, name = 'physician_appointments'),
+    path('physician/appointments', physician_appointments.as_view(), name = 'physician_appointments'),
+    path('physician/appointments/add', views.physician_appointments_book, name = 'physician_add_appointments'),
 
-    path('patient', views.patient_main, name='patient_main'),
+    path('patient', patient_main.as_view(), name='patient_main'),
     path('patient/profile', PatientProfileView.as_view(), name = 'patient_profile'),
     path('patient/appointments', PatientAppointmentView.as_view(), name = 'patient_appointments'),
-    path('patient/appointments/book', views.patient_appointments_book, name = 'patient_appointments_book'),
+    path('patient/appointments/book', patient_appointments_book.as_view(), name = 'patient_appointments_book'),
 
     
 
