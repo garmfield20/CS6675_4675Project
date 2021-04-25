@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Physician Add Appointment Page</title>
+    <title>Physician Appointment Page</title>
     <style>
         body {
             background-image: url("https://upload.wikimedia.org/wikipedia/commons/9/91/Doctor_with_Nurse_Cartoon.svg");
@@ -60,26 +60,44 @@
             <button onClick="window.location='/user/physician/appointments';" type="button">Appointments</button>
             <button onClick="window.location='/user/physician';" type="button">Home</button>
         </h1>
-
         <h2>
-            Add Appointment:
+            Available Appointments:
         </h2>
-
-        <li><b>Current Physician:</b> {{ appointment.physician }}</li>
-        <li><b>Patient:</b> {{ appointment.patient }}</li>
-        <li><b>Vaccine Name:</b> {{ appointment.vaccine_name.brand }}</li>
-        <li><b>Vaccine Name:</b> {{ appointment.vaccine_name.vaccine_id }}</li>
-        <li><b>Start Time:</b> {{ appointment.start_time  }}</li>
-        <li><b>End Time:</b> {{ appointment.end_time }}</li>
-        <li><b>Dose:</b> {{ appointment.dose }}</li>
+        <script type="text/javascript">
+            function setCurrAppt(ele) {
+                document.getElementById('currappt').value = ele.innerHTML;
+            }
+        </script>
+        <input type="hidden" name="currappt" id="currappt" value="''''"/>
         
+        <ul>
+            {% for appointment in object_list %}
+
+            <li><b>Appointment ID:</b> {{ appointment.id }}</li>
+            <li><b>Current Physician:</b> {{ appointment.physician }}</li>
+            <li><b>Patient:</b> {{ appointment.patient }}</li>
+            <li><b>Vaccine Name:</b> {{ appointment.vaccine_name.brand }}</li>
+            <li><b>Vaccine Name:</b> {{ appointment.vaccine_name.vaccine_id }}</li>
+            <li><b>Start Time:</b> {{ appointment.start_time  }}</li>
+            <li><b>End Time:</b> {{ appointment.end_time }}</li>
+            <li><b>Dose:</b> {{ appointment.dose }}</li>
+            
+            <button onClick="window.location='/user/physician/appointments/{{ appointment.id }}';" set style="float: left;" type="button">Sign Up</button>
+            
+            
+            {% empty %}
+            <li>No appointments available.</li>
+            {% endfor %}            
+        </ul>
 
         
-    
-        <form method="post">{% csrf_token %}
-            {{ form.as_p }}
-            <button  type="submit">Confirm</button>
-        </form> 
-    </div>
+        
+        <!--    <p>Start time: {{ object.StartTime }}</p>-->
+        <!--    <p>End time: {{ object.EndTime }}</p>-->
+        <!--    <form method="post">-->
+        <!--    {% csrf_token %}-->
+        <!--    {{ form.as_p }}-->
+        <!--    </form>
+        <button onClick="window.location.href='physician_appointments_book/'; currappt = appointment" set style="float: left;" type="button">Sign up</button>-->
 </body>
 </html>

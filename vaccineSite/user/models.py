@@ -25,6 +25,7 @@ livingChoices = ((1, "Independent (1 person)"), (2, "Small Group (2-6)"),
                  (3, "Small Group Housing (7 - 20)"), (4, "Large Group Housing (21+)"),
                  (5, "Assisted Living"), (6, "Live with someone that is at risk"))
 
+
 # priorityChoices = (('low', 'low'), ('medium', 'medium'), ('high', 'high'))
 
 
@@ -63,7 +64,8 @@ class Distributor(models.Model):
     last_update = models.DateField(default='2021-04-10')
     registration_date = models.DateField(default='2021-04-10')
     update_count = models.IntegerField(default=0)
-   #rating = models.FloatField(default=5)
+
+    # rating = models.FloatField(default=5)
 
     def __str__(self):
         return self.user.username
@@ -72,7 +74,6 @@ class Distributor(models.Model):
 class Physician(models.Model):
     user = models.OneToOneField(Account, on_delete=models.CASCADE, default=None)
     distributor = models.ForeignKey('Distributor', on_delete=models.CASCADE)
-
 
     def __str__(self):
         return self.user.username
@@ -84,21 +85,16 @@ class Vaccine(models.Model):
     dose_required = models.IntegerField()
     expiration_date = models.DateField()
 
+    def __str__(self):
+        return self.vaccine_id
+
 
 class Appointment(models.Model):
     start_time = models.DateTimeField()
     end_time = models.DateTimeField()
-    physician = models.OneToOneField('Physician', on_delete=models.CASCADE, default=None, blank=True, null =True)
-    patient = models.OneToOneField('Patient', on_delete=models.CASCADE, default=None, blank=True, null=True)
+    physician = models.ForeignKey('Physician', on_delete=models.CASCADE, default=None, null=True)
+    patient = models.ForeignKey('Patient', on_delete=models.CASCADE, default=None, null=True)
     distributor = models.ForeignKey('Distributor', on_delete=models.CASCADE, default=None)
     vaccine_name = models.OneToOneField(Vaccine, on_delete=models.RESTRICT, max_length=256)
     dose = models.IntegerField(default=1)
-
-    class Meta:
-        unique_together = (('physician', 'patient', 'vaccine_name'),)
-
-
-# class Profile(models.Model):
-
-
 

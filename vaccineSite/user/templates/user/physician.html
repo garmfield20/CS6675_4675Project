@@ -63,6 +63,25 @@
         <h2>
             Main Page
         </h2>
+
+        <ul>
+    
+            {% for appointment in object_list %}
+            
+
+            <li><b>Current Physician:</b> {{ appointment.currphysician }}</li>
+            <li><b>Patient:</b> {{ appointment.patient }}</li>
+            <li><b>Vaccine Name:</b> {{ appointment.vaccineName.vaccine_id }}</li>
+            <li><b>Start Time:</b> {{ appointment.startTime }}</li>
+            <li><b>End Time:</b> {{ appointment.endTime }}</li>
+            <li><b>Dose:</b> {{ appointment.dose }}</li>
+            {% empty %}
+            <li>No appointments.</li>
+            {% endfor %}
+
+
+        </ul>
+        
         <form method="post">
             {% csrf_token %}
             {{ form.as_p }}
