@@ -110,12 +110,13 @@ class PhysicianSignUpForm(UserCreationForm):
         return user
 
 
-
 class PhysicianApptAddForm(forms.ModelForm):
     physician = forms.ModelChoiceField(queryset = Physician.objects, required=False, blank=True)
+
     class Meta:
         model = Appointment
         fields = ['physician']
+
     def save(self, commit=True):
         appointment = Appointment()
         appointment.physician = self.cleaned_data.get('physician')
@@ -186,7 +187,3 @@ class PatientSignUpForm(UserCreationForm):
 
         return user
 
-
-# class PatientApptBookForm(UserCreationForm):
-
-    

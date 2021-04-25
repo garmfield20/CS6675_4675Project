@@ -73,11 +73,12 @@
         <li><b>End Time:</b> {{ appointment.end_time }}</li>
         <li><b>Dose:</b> {{ appointment.dose }}</li>
         
-        <button onClick="window.location='/user/physician';" type="button">Confirm</button>
+
         
     
         <form method="post">{% csrf_token %}
             {{ form.as_p }}
+            <button  type="submit">Confirm</button>
         </form> 
     </div>
 </body>

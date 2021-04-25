@@ -97,12 +97,9 @@ class Appointment(models.Model):
     vaccine_name = models.OneToOneField(Vaccine, on_delete=models.RESTRICT, max_length=256)
     dose = models.IntegerField(default=1)
 
-    class Meta:
-        unique_together = (('physician', 'patient', 'vaccine_name'),)
+    # class Meta:
+    #     unique_together = (('physician', 'patient', 'vaccine_name'),)
 
-
-
-# class Profile(models.Model):
 
 
 

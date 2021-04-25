@@ -23,7 +23,7 @@ urlpatterns = [
     path('physician', physician_main.as_view(), name='physician_main'),
     path('physician/profile', PhysicianProfileView.as_view(), name = 'physician_profile'),
     path('physician/appointments', physician_appointments.as_view(), name = 'physician_appointments'),
-    path('physician/appointments/add', physician_appointments_book.as_view(), name = 'physician_add_appointments'),
+    path('physician/appointments/<int:pk>', physician_appointments_book.as_view(), name = 'physician_add_appointments'),
 
     path('patient', patient_main.as_view(), name='patient_main'),
     path('patient/profile', PatientProfileView.as_view(), name = 'patient_profile'),
