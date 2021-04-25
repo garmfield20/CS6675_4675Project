@@ -5,7 +5,7 @@
     <title>Patient's Registered Appointment Page</title>
     <style>
         body {
-            background-image: url("https://upload.wikimedia.org/wikipedia/commons/9/91/Doctor_with_Nurse_Cartoon.svg");
+            background-image: url("https://www.cdc.gov/coronavirus/2019-ncov/images/daily-life-coping/group-with-masks.png");
             background-size: 105%;
         }
     </style>
@@ -56,9 +56,9 @@
             Patient Portal
 
             <button onClick="window.location='/user/logout';" type="button">Sign out</button>
-            <button onClick="window.location='/user/physician/profile';" type="button">Profile</button>
-            <button onClick="window.location='/user/physician/appointments';" type="button">Appointments</button>
-            <button onClick="window.location='/user/physician';" type="button">Home</button>
+            <button onClick="window.location='/user/patient/profile';" type="button">Profile</button>
+            <button onClick="window.location='/user/patient/appointments';" type="button">Book Appointments</button>
+            <button onClick="window.location='/user/patient';" type="button">Home</button>
         </h1>
         <h2>
             Registered Appointments:
@@ -80,11 +80,14 @@
             <li><b>Start Time:</b> {{ appointment.start_time  }}</li>
             <li><b>End Time:</b> {{ appointment.end_time }}</li>
             <li><b>Dose:</b> {{ appointment.dose }}</li>
+            <br />
+            <br />
+            <br />
+            <br />
 
-            
             {% empty %}
             <li>No appointments registered for you</li>
-            {% endfor %}            
+            {% endfor %}
         </ul>
 
         

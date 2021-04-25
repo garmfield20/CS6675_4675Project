@@ -57,10 +57,21 @@
 
             <button onClick="window.location='/user/logout';" type="button">Sign out</button>
             <button onClick="window.location='/user/patient/profile';" type="button">Profile</button>
+            <button onClick="window.location='/user/patient/appointments/my';" type="button">My Appointments</button>
             <button onClick="window.location='/user/patient';" type="button">Home</button>
         </h1>
         <h2>
             Available Appointments:
+            <button onClick="window.location='/user/patient/appointments/d';">
+                Dose
+            </button>
+            <button onClick="window.location='/user/patient/appointments/r';">
+                Most Recent
+            </button>
+            <button onClick="window.location='/user/patient/appointments/v';">
+                Vaccine Type
+            </button>
+
         </h2>
         <ul>
             {% for appointment in object_list %}
@@ -74,8 +85,13 @@
             <li><b>End Time:</b> {{ appointment.end_time }}</li>
             <li><b>Dose:</b> {{ appointment.dose }}</li>
 
+
             <button onClick="window.location='/user/patient/appointments/{{ appointment.id }}';" style="float: left;" type="button">Sign up</button>
-            
+            <br />
+            <br />
+            <br />
+            <br />
+
             {% empty %}
             <li>No appointments available.</li>
             {% endfor %}

@@ -29,6 +29,9 @@ urlpatterns = [
     path('patient', PatientMain.as_view(), name='patient_main'),
     path('patient/profile', PatientProfileView.as_view(), name='patient_profile'),
     path('patient/appointments', PatientAppointmentView.as_view(), name='patient_appointments'),
+    path('patient/appointments/d', PatientAppointmentViewD.as_view(), name='patient_appointments_d'),
+    path('patient/appointments/v', PatientAppointmentViewV.as_view(), name='patient_appointments_v'),
+    path('patient/appointments/r', PatientAppointmentViewR.as_view(), name='patient_appointments_r'),
     path('patient/appointments/<int:pk>', PatientAppointmentsBook.as_view(), name='patient_appointments_book'),
     path('patient/appointments/my', PatientMyAppointments.as_view(), name='patient_appointments_my'),
 

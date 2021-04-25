@@ -97,4 +97,3 @@ class Appointment(models.Model):
     distributor = models.ForeignKey('Distributor', on_delete=models.CASCADE, default=None)
     vaccine_name = models.OneToOneField(Vaccine, on_delete=models.RESTRICT, max_length=256)
     dose = models.IntegerField(default=1)
-

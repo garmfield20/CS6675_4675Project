@@ -3,46 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <title>Account home page</title>
-</head>
-<style> 
-    body {
-        background: #89CFF0;
-    }
 
-    h1 {
-        color: white;
-        text-align: center;
-    }
+    <style>
+        body {
+            background: #89CFF0;
+        }
+    </style>
+        </head >
 
-    button {
-        color: black;
-        width: 300px;
-        height: 100px;
-        margin-top: 50px;
-        margin-left: 846px;
-        font-size: 28px;
-    }
+<body>
+    <style>
+        h1 {
+            color: white;
+            text-align: center;
+        }
 
-    #firstRect{
-        fill: white;
-        fill-opacity: .56;
-    }
+        button {
+            color: black;
+            width: 300px;
+            height: 100px;
+            margin-top: 50px;
+            font-size: 28px;
+            
+        }
 
-    
+        #firstRect {
+            fill: white;
+            fill-opacity: .56;
+        }
+    </style>
 
-</style>
-
-
-<body >
     <h1>
         Select User Type
     </h1>
+    <p style="text-align: center">
+        <button onClick="window.location='signup/patient';" type="button"> Patient </button>
+    </p>
+    <p style="text-align: center">
+        <button onClick="window.location='signup/physician';" type="button"> Physician </button>
+    </p>
+    <p style="text-align: center">
+        <button onClick="window.location='signup/distributor';" type="button"> Distributor </button>
+    </p>
 
-    <button onClick="window.location='signup/patient';" type="button"> Patient </button>
-    <button onClick="window.location='signup/physician';" type="button"> Physician </button>
-    <button onClick="window.location='signup/distributor';" type="button"> Distributor </button>
-
-   
 </body>
 
 

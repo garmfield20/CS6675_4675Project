@@ -141,14 +141,43 @@ class PatientProfileView(ListView):
         filtered_queryset = [_ for _ in queryset if _.user.username == self.request.user.username]
         return filtered_queryset
 
-
 @method_decorator([login_required, patient_required], name='dispatch')
 class PatientAppointmentView(ListView):
     model = Appointment
     template_name = 'user/patient_appointments.html'
 
     def get_queryset(self):
-        queryset = Appointment.objects.all()
+        queryset = Appointment.objects.all().order_by('dose')
+        filtered_queryset = [_ for _ in queryset if _.physician != None and _.patient == None]
+        return filtered_queryset
+
+@method_decorator([login_required, patient_required], name='dispatch')
+class PatientAppointmentViewD(ListView):
+    model = Appointment
+    template_name = 'user/patient_appointments_d.html'
+
+    def get_queryset(self):
+        queryset = Appointment.objects.all().order_by('dose')
+        filtered_queryset = [_ for _ in queryset if _.physician != None and _.patient == None]
+        return filtered_queryset
+
+@method_decorator([login_required, patient_required], name='dispatch')
+class PatientAppointmentViewV(ListView):
+    model = Appointment
+    template_name = 'user/patient_appointments_v.html'
+
+    def get_queryset(self):
+        queryset = Appointment.objects.all().order_by('vaccine_name')
+        filtered_queryset = [_ for _ in queryset if _.physician != None and _.patient == None]
+        return filtered_queryset
+
+@method_decorator([login_required, patient_required], name='dispatch')
+class PatientAppointmentViewR(ListView):
+    model = Appointment
+    template_name = 'user/patient_appointments_r.html'
+
+    def get_queryset(self):
+        queryset = Appointment.objects.all().order_by('start_time')
         filtered_queryset = [_ for _ in queryset if _.physician != None and _.patient == None]
         return filtered_queryset
 
@@ -220,7 +249,7 @@ class PhysicianAvailableAppointments(ListView):
     template_name = 'user/physician_appointments.html'
 
     def get_queryset(self):
-        queryset = Appointment.objects.all()
+        queryset = Appointment.objects.all().order_by('start_time')
         # print(queryset[1].id)
         filtered_queryset = [_ for _ in queryset if
                              _.physician is None and _.distributor == self.request.user.physician.distributor]
@@ -233,7 +262,7 @@ class PhysicianMyAppointments(ListView):
     template_name = 'user/physician_appointments_my.html'
 
     def get_queryset(self):
-        queryset = Appointment.objects.all()
+        queryset = Appointment.objects.all().order_by('start_time')
         filtered_queryset = [_ for _ in queryset if
                              _.physician == self.request.user.physician and _.distributor == self.request.user.physician.distributor]
         return filtered_queryset

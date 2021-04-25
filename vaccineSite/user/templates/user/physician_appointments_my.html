@@ -57,7 +57,7 @@
 
             <button onClick="window.location='/user/logout';" type="button">Sign out</button>
             <button onClick="window.location='/user/physician/profile';" type="button">Profile</button>
-            <button onClick="window.location='/user/physician/appointments';" type="button">Appointments</button>
+            <button onClick="window.location='/user/physician/appointments';" type="button">Available Appointments</button>
             <button onClick="window.location='/user/physician';" type="button">Home</button>
         </h1>
         <h2>
@@ -80,11 +80,14 @@
             <li><b>Start Time:</b> {{ appointment.start_time  }}</li>
             <li><b>End Time:</b> {{ appointment.end_time }}</li>
             <li><b>Dose:</b> {{ appointment.dose }}</li>
+            <br />
+            <br />
+            <br />
+            <br />
 
-            
             {% empty %}
             <li>No appointments registered for you</li>
-            {% endfor %}            
+            {% endfor %}
         </ul>
 
         
