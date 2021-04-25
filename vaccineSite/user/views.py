@@ -114,8 +114,14 @@ def vaccine(request):
     return render(request, 'user/distributor_vaccine.html', context)
 
 
+'''
+Patient
+APIs
+'''
+
+
 @method_decorator([login_required, patient_required], name='dispatch')
-class patient_main(ListView):
+class PatientMain(ListView):
     model = Appointment
     template_name = 'user/patient.html'
 
@@ -148,16 +154,36 @@ class PatientAppointmentView(ListView):
 
 
 @method_decorator([login_required, patient_required], name='dispatch')
-class patient_appointments_book(UpdateView):
+class PatientAppointmentsBook(UpdateView):
     model = Appointment
     fields = ['patient']
-    
-    sucess_url ='user/patient.html'
+    template_name = 'user/patient_appointments_book.html'
+
+    def get_success_url(self):
+        return reverse('patient_appointments_my')
+
+
+@method_decorator([login_required, patient_required], name='dispatch')
+class PatientMyAppointments(ListView):
+    model = Appointment
+    template_name = 'user/patient_appointments_my.html'
+
+    def get_queryset(self):
+        queryset = Appointment.objects.all()
+        filtered_queryset = [_ for _ in queryset if
+                             _.patient == self.request.user.patient]
+        return filtered_queryset
+
+
+'''
+Physician
+APIs
+'''
 
 
 @method_decorator([login_required, physician_required], name='dispatch')
 # will show current physician appointments
-class physician_main(ListView):
+class PhysicianMain(ListView):
     model = Appointment
     template_name = 'user/physician.html'
 
@@ -171,39 +197,46 @@ class physician_main(ListView):
 class PhysicianProfileView(ListView):
     model = Physician
     template_name = 'user/physician_profile.html'
+
     def get_queryset(self):
         queryset = Physician.objects.all()
         filtered_queryset = [_ for _ in queryset if _.user.username == self.request.user.username]
         return filtered_queryset
 
-# class physician_appointments_book(UpdateView):
-#     model = Appointment
-#     fields = ['physician']
-#     sucess_url = 'user/physician/profile'
-# @login_required
-# @physician_required
+
 @method_decorator([login_required, physician_required], name='dispatch')
-class physician_appointments_book(UpdateView):
+class PhysicianAppointmentsBook(UpdateView):
     model = Appointment
-    fields = ['physician',]
-    template_name ='user/physician_appointments_add.html'
+    fields = ['physician', ]
+    template_name = 'user/physician_appointments_add.html'
 
     def get_success_url(self):
-        return reverse('physician_main')
+        return reverse('physician_appointments_my')
 
 
-# available appointments 
 @method_decorator([login_required, physician_required], name='dispatch')
-class physician_appointments(ListView):
+class PhysicianAvailableAppointments(ListView):
     model = Appointment
     template_name = 'user/physician_appointments.html'
 
     def get_queryset(self):
         queryset = Appointment.objects.all()
         # print(queryset[1].id)
-        filtered_queryset = [_ for _ in queryset if _.physician == None and _.distributor == self.request.user.physician.distributor]
+        filtered_queryset = [_ for _ in queryset if
+                             _.physician is None and _.distributor == self.request.user.physician.distributor]
         return filtered_queryset
-    
+
+
+@method_decorator([login_required, physician_required], name='dispatch')
+class PhysicianMyAppointments(ListView):
+    model = Appointment
+    template_name = 'user/physician_appointments_my.html'
+
+    def get_queryset(self):
+        queryset = Appointment.objects.all()
+        filtered_queryset = [_ for _ in queryset if
+                             _.physician == self.request.user.physician and _.distributor == self.request.user.physician.distributor]
+        return filtered_queryset
 
 
 def distributor_sign_up(request):
@@ -249,5 +282,3 @@ def physician_sign_up(request):
 
     context = {'form': form}
     return render(request, 'user/physician_signup.html', context)
-
-

@@ -73,6 +73,7 @@
         <ul>
             {% for appointment in object_list %}
 
+            <li><b>Appointment ID:</b> {{ appointment.id }}</li>
             <li><b>Current Physician:</b> {{ appointment.physician }}</li>
             <li><b>Patient:</b> {{ appointment.patient }}</li>
             <li><b>Vaccine Name:</b> {{ appointment.vaccine_name.brand }}</li>
@@ -81,7 +82,7 @@
             <li><b>End Time:</b> {{ appointment.end_time }}</li>
             <li><b>Dose:</b> {{ appointment.dose }}</li>
             
-            <button onClick="window.location='/user/physician/appointments/add';" currappt = appointment set style="float: left;" type="button">Sign Up</button>
+            <button onClick="window.location='/user/physician/appointments/{{ appointment.id }}';" set style="float: left;" type="button">Sign Up</button>
             
             
             {% empty %}
@@ -89,9 +90,6 @@
             {% endfor %}            
         </ul>
 
-        <form method="post">{% csrf_token %}
-            {{ form.as_p }}
-        </form> 
         
         
         <!--    <p>Start time: {{ object.StartTime }}</p>-->
