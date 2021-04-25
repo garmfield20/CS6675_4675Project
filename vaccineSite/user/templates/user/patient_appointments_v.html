@@ -3,12 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <title>Patient Appointment Page</title>
+    {% load static %}
     <style>
         body {
             background-image: url("https://www.cdc.gov/coronavirus/2019-ncov/images/daily-life-coping/group-with-masks.png");
             background-size: 105%;
         }
     </style>
+    <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false&v=3&libraries=geometry"></script>
 </head>
 <body>
     <style>
@@ -58,6 +60,7 @@
             <button onClick="window.location='/user/logout';" type="button">Sign out</button>
             <button onClick="window.location='/user/patient/profile';" type="button">Profile</button>
             <button onClick="window.location='/user/patient/appointments/my';" type="button">My Appointments</button>
+            <button onClick="window.location='/user/patient/appointments';" type="button">Book Appointments</button>
             <button onClick="window.location='/user/patient';" type="button">Home</button>
         </h1>
         <h2>
@@ -73,29 +76,75 @@
             </button>
 
         </h2>
-        <ul>
-            {% for appointment in object_list %}
+        <h3>
+            Location: Georgia Tech Klaus Building (266 Ferst Dr NW, Atlanta, GA 30332)
 
-            <li><b>Appointment ID:</b> {{ appointment.id }}</li>
-            <li><b>Current Physician:</b> {{ appointment.physician }}</li>
-            <li><b>Patient:</b> {{ appointment.patient }}</li>
-            <li><b>Vaccine Name:</b> {{ appointment.vaccine_name.brand }}</li>
-            <li><b>Vaccine Name:</b> {{ appointment.vaccine_name.vaccine_id }}</li>
-            <li><b>Start Time:</b> {{ appointment.start_time  }}</li>
-            <li><b>End Time:</b> {{ appointment.end_time }}</li>
-            <li><b>Dose:</b> {{ appointment.dose }}</li>
+            <h4>
+                <form>
+                    <label for="publix"> Distance to Publix (933 W Peachtree St NW, Atlanta, GA 30309): </label>
+                    <input type="text" name="publix" id="publix"><br>
+                    <label for="cvs"> Distance to CVS (842 W Peachtree St NW, Atlanta, GA 30308): </label>
+                    <input type="text" name="cvs" id="cvs"><br>
+                    <label for="target"> Distance to Target (375 18th St NW, Atlanta, GA 30363): </label>
+                    <input type="text" name="target" id="target"><br>
+                    <label for="walmart"> Distance to Walmart (835 M.L.K. Jr Dr NW, Atlanta, GA 30314): </label>
+                    <input type="text" name="walmart" id="walmart"><br>
+                </form>
+            </h4>
+
+            <script type="text/javascript" id="rol">
+                // kilometers
+                var klaus = new google.maps.LatLng(33.77704546685516, -84.39581896386306);
+                var publix = new google.maps.LatLng(33.78055984355507, -84.38706049699167);
+                var walmart = new google.maps.LatLng(33.75568863077128, -84.41363856931753);
+                var cvs = new google.maps.LatLng(33.777589263888, -84.38468283309578);
+                var target = new google.maps.LatLng(33.793316948275404, -84.39932885777863);
+                var klausdistpublix = (google.maps.geometry.spherical.computeDistanceBetween(klaus, publix) / 1000).toFixed(2);
+                var klausdistwalmart = (google.maps.geometry.spherical.computeDistanceBetween(klaus, walmart) / 1000).toFixed(2);
+                var klausdisttarget = (google.maps.geometry.spherical.computeDistanceBetween(klaus, target) / 1000).toFixed(2);
+                var klausdistcvs = (google.maps.geometry.spherical.computeDistanceBetween(klaus, cvs) / 1000).toFixed(2);
 
 
-            <button onClick="window.location='/user/patient/appointments/{{ appointment.id }}';" style="float: left;" type="button">Sign up</button>
-            <br />
-            <br />
-            <br />
-            <br />
+                document.getElementById("publix").value = klausdistpublix + " km";
+                document.getElementById("walmart").value = klausdistwalmart + " km";
+                document.getElementById("target").value = klausdisttarget + " km";
+                document.getElementById("cvs").value = klausdistcvs + " km";
+            </script>
+            <h5>
+                <label for="Location">Choose a vaccine site:</label>
+                <select name="Location" id="Location">
+                    <option value="" disabled selected hidden></option>
+                    <option value="Publix">Publix</option>
+                    <option value="CVS">CVS</option>
+                    <option value="Target">Target</option>
+                    <option value="Walmart">Walmart</option>
+                </select>
+            </h5>
 
-            {% empty %}
-            <li>No appointments available.</li>
-            {% endfor %}
-        </ul>
+            {% load static %} <img src="{% static 'finalimg.png' %}" alt="Hi!" width="600" height="600" />
+            <ul>
+                {% for appointment in object_list %}
+
+                <li><b>Appointment ID:</b> {{ appointment.id }}</li>
+                <li><b>Current Physician:</b> {{ appointment.physician }}</li>
+                <li><b>Patient:</b> {{ appointment.patient }}</li>
+                <li><b>Vaccine Name:</b> {{ appointment.vaccine_name.brand }}</li>
+                <li><b>Vaccine Name:</b> {{ appointment.vaccine_name.vaccine_id }}</li>
+                <li><b>Start Time:</b> {{ appointment.start_time  }}</li>
+                <li><b>End Time:</b> {{ appointment.end_time }}</li>
+                <li><b>Dose:</b> {{ appointment.dose }}</li>
+
+
+                <button onClick="window.location='/user/patient/appointments/{{ appointment.id }}';" style="float: left;" type="button">Sign up</button>
+                <br />
+                <br />
+                <br />
+                <br />
+
+                {% empty %}
+                <li>No appointments available.</li>
+                {% endfor %}
+            </ul>
     </div>
 </body>
 </html>
